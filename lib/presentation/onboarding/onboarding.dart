@@ -18,11 +18,15 @@ class _onboardingViewState extends State<OnboardingView> {
   int _currentIndex = 0;
 
   List<SliderObject> _getSliderData() => [
-    SliderObject(AppStrings.onBoardingTitle1, AppStrings.onBoardingSubTitle1, ImagesAsset.onboardingLogo1),
-    SliderObject(AppStrings.onBoardingTitle2, AppStrings.onBoardingSubTitle3, ImagesAsset.onboardingLogo2),
-    SliderObject(AppStrings.onBoardingTitle3, AppStrings.onBoardingSubTitle3, ImagesAsset.onboardingLogo3),
-    SliderObject(AppStrings.onBoardingTitle4, AppStrings.onBoardingSubTitle4, ImagesAsset.onboardingLogo4),
-  ];
+        SliderObject(AppStrings.onBoardingTitle1,
+            AppStrings.onBoardingSubTitle1, ImagesAsset.onboardingLogo1),
+        SliderObject(AppStrings.onBoardingTitle2,
+            AppStrings.onBoardingSubTitle3, ImagesAsset.onboardingLogo2),
+        SliderObject(AppStrings.onBoardingTitle3,
+            AppStrings.onBoardingSubTitle3, ImagesAsset.onboardingLogo3),
+        SliderObject(AppStrings.onBoardingTitle4,
+            AppStrings.onBoardingSubTitle4, ImagesAsset.onboardingLogo4),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +40,52 @@ class _onboardingViewState extends State<OnboardingView> {
           statusBarIconBrightness: Brightness.dark,
         ),
       ),
-      body: PageView.builder(controller: _pageController, itemCount: _list.length, onPageChanged: (index){
-        setState(() {
-          _currentIndex = index;
-        });
-      }, itemBuilder: (context, index){
+      body: PageView.builder(
+          controller: _pageController,
+          itemCount: _list.length,
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          itemBuilder: (context, index) {}),
+    );
+  }
+}
 
-      }),
+class OnBoardingPage extends StatelessWidget {
+  SliderObject _sliderObject;
+
+  OnBoardingPage(this._sliderObject, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: AppSize.s40,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            _sliderObject.title,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            _sliderObject.subTitle,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        SizedBox(
+          height: AppSize.s60,
+        )
+      ],
     );
   }
 }
