@@ -4,6 +4,7 @@ import 'package:complete_advenced_flutter/presentation/resources/string_manager.
 import 'package:complete_advenced_flutter/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({Key? key}) : super(key: key);
@@ -33,6 +34,7 @@ class _onboardingViewState extends State<OnboardingView> {
     return Scaffold(
       backgroundColor: ColorManager.white,
       appBar: AppBar(
+        backgroundColor: ColorManager.white,
         elevation: AppSize.s1_5,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
@@ -48,8 +50,85 @@ class _onboardingViewState extends State<OnboardingView> {
               _currentIndex = index;
             });
           },
-          itemBuilder: (context, index) {}),
+          itemBuilder: (context, index) {
+            return OnBoardingPage(_list[index]);
+          }),
+      bottomSheet: Container(
+        color: Colors.white,
+        height: AppSize.s100,
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  AppStrings.skip,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ),
+            _getBottomSheetWidget(),
+          ],
+        ),
+      ),
     );
+  }
+
+  Widget _getBottomSheetWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // left arrow
+        Padding(
+          padding: EdgeInsets.all(AppPadding.p14),
+          child: GestureDetector(
+            child: SizedBox(
+              height: AppSize.s20,
+              width: AppSize.s20,
+              child: SvgPicture.asset(ImagesAsset.leftArrowIc),
+            ),
+            onTap: () {
+              // go to next slide
+            },
+          ),
+        ),
+
+        // circles indicator
+        Row(
+          children: [
+            for (int i = 0; i < _list.length; i++)
+              Padding(
+                padding: EdgeInsets.all(AppPadding.p8),
+                child: _getProperCircle(i),
+              )
+          ],
+        ),
+
+        // right arrow
+        Padding(
+          padding: EdgeInsets.all(AppPadding.p14),
+          child: GestureDetector(
+            child: SizedBox(
+              height: AppSize.s20,
+              width: AppSize.s20,
+              child: SvgPicture.asset(ImagesAsset.rightArrowIc),
+            ),
+            onTap: () {
+              // go to next slide
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getProperCircle(int index) {
+    if (index == _currentIndex) {
+      return SvgPicture.asset(ImagesAsset.hollowCirlceIc);
+    } else {
+      return SvgPicture.asset(ImagesAsset.solidCircleIc);
+    }
   }
 }
 
@@ -84,7 +163,8 @@ class OnBoardingPage extends StatelessWidget {
         ),
         SizedBox(
           height: AppSize.s60,
-        )
+        ),
+        SvgPicture.asset(_sliderObject.image)
       ],
     );
   }
