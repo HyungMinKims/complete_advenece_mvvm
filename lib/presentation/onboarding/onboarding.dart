@@ -35,7 +35,7 @@ class _onboardingViewState extends State<OnboardingView> {
       backgroundColor: ColorManager.white,
       appBar: AppBar(
         backgroundColor: ColorManager.white,
-        elevation: AppSize.s1_5,
+        elevation: AppSize.s0,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
           statusBarBrightness: Brightness.dark,
@@ -64,6 +64,7 @@ class _onboardingViewState extends State<OnboardingView> {
                 onPressed: () {},
                 child: Text(
                   AppStrings.skip,
+                  style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.end,
                 ),
               ),
@@ -76,51 +77,82 @@ class _onboardingViewState extends State<OnboardingView> {
   }
 
   Widget _getBottomSheetWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // left arrow
-        Padding(
-          padding: EdgeInsets.all(AppPadding.p14),
-          child: GestureDetector(
-            child: SizedBox(
-              height: AppSize.s20,
-              width: AppSize.s20,
-              child: SvgPicture.asset(ImagesAsset.leftArrowIc),
+    return Container(
+      color: ColorManager.primary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // left arrow
+          Padding(
+            padding: EdgeInsets.all(AppPadding.p14),
+            child: GestureDetector(
+              child: SizedBox(
+                height: AppSize.s20,
+                width: AppSize.s20,
+                child: SvgPicture.asset(ImagesAsset.leftArrowIc),
+              ),
+              onTap: () {
+                // go to next slide
+                _pageController.animateToPage(
+                  _getPreviousIndex(),
+                  duration: Duration(milliseconds: DurationConstant.d300),
+                  curve: Curves.bounceInOut,
+                );
+              },
             ),
-            onTap: () {
-              // go to next slide
-            },
           ),
-        ),
 
-        // circles indicator
-        Row(
-          children: [
-            for (int i = 0; i < _list.length; i++)
-              Padding(
-                padding: EdgeInsets.all(AppPadding.p8),
-                child: _getProperCircle(i),
-              )
-          ],
-        ),
+          // circles indicator
+          Row(
+            children: [
+              for (int i = 0; i < _list.length; i++)
+                Padding(
+                  padding: EdgeInsets.all(AppPadding.p8),
+                  child: _getProperCircle(i),
+                )
+            ],
+          ),
 
-        // right arrow
-        Padding(
-          padding: EdgeInsets.all(AppPadding.p14),
-          child: GestureDetector(
-            child: SizedBox(
-              height: AppSize.s20,
-              width: AppSize.s20,
-              child: SvgPicture.asset(ImagesAsset.rightArrowIc),
+          // right arrow
+          Padding(
+            padding: EdgeInsets.all(AppPadding.p14),
+            child: GestureDetector(
+              child: SizedBox(
+                height: AppSize.s20,
+                width: AppSize.s20,
+                child: SvgPicture.asset(ImagesAsset.rightArrowIc),
+              ),
+              onTap: () {
+                // go to next slide
+                _pageController.animateToPage(_getNextIndex(),
+                    duration: Duration(milliseconds: DurationConstant.d300),
+                    curve: Curves.bounceInOut);
+              },
             ),
-            onTap: () {
-              // go to next slide
-            },
           ),
-        ),
-      ],
+        ],
+      ),
     );
+  }
+
+  int _getPreviousIndex() {
+    int previousIndex = _currentIndex--;
+
+    if (previousIndex == -1) {
+      _currentIndex = _list.length - 1;
+    }
+
+    return _currentIndex;
+  }
+
+  int _getNextIndex() {
+    int nextIndex = _currentIndex++;
+
+    if (nextIndex >= _list.length) {
+      _currentIndex = 0;
+    }
+
+    return _currentIndex;
   }
 
   Widget _getProperCircle(int index) {
