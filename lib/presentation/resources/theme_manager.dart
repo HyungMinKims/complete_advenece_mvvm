@@ -59,6 +59,8 @@ ThemeData getApplicationTheme(BuildContext context) {
           color: ColorManager.darkColor, fontSize: FontSize.s16),
       titleSmall:
           getMediumStyle(color: ColorManager.lightGrey, fontSize: FontSize.s14),
+      bodyLarge:
+          getMediumStyle(color: ColorManager.primary, fontSize: FontSize.s14),
       labelLarge: getRegularStyle(color: ColorManager.grey1),
       bodyMedium: getRegularStyle(color: ColorManager.grey),
     ),
@@ -90,15 +92,14 @@ ThemeData getApplicationTheme(BuildContext context) {
 
       // error border
       errorBorder: OutlineInputBorder(
-        borderSide:
-        BorderSide(color: ColorManager.error, width: AppSize.s1_5),
+        borderSide: BorderSide(color: ColorManager.error, width: AppSize.s1_5),
         borderRadius: BorderRadius.all(Radius.circular(AppSize.s8)),
       ),
 
       // focused error border
       focusedErrorBorder: OutlineInputBorder(
         borderSide:
-        BorderSide(color: ColorManager.primary, width: AppSize.s1_5),
+            BorderSide(color: ColorManager.primary, width: AppSize.s1_5),
         borderRadius: BorderRadius.all(Radius.circular(AppSize.s8)),
       ),
     ),
